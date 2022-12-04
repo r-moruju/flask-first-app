@@ -16,6 +16,16 @@ def about():
         data = json.load(json_data)
     return render_template("about.html", page_title = "About", company = data)
 
+@app.route("/about/<item_name>")
+def about_item(item_name):
+    member = {}
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+        for obj in data:
+            if obj["url"] == item_name:
+                member = obj
+    return render_template("member.html", page_title = member["name"], item = member)
+
 if __name__ == "__main__":
     app.run(
         host = os.environ.get("IP", "0.0.0.0"),
